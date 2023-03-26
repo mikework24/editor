@@ -1,0 +1,100 @@
+:root {
+  --pixel-size: 4px;
+  --grid-cell: calc(var(--pixel-size) * 16);
+  --bg: #9fa7e4;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
+body {
+  background: #f2f2f2;
+  overflow: hidden;
+}
+
+canvas {
+  display: block;
+  margin: 0px auto;
+  border: 0px solid #333;
+}
+
+p,
+a {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 19px;
+  color: #777;
+  display: block;
+  width: 400px;
+  margin: 0 auto;
+  text-align: center;
+  text-decoration: none;
+}
+
+
+.dpad {
+  position: absolute;
+  right: calc(var(--pixel-size) * 5);
+  left: calc(var(--pixel-size) * 5);
+  bottom: calc(var(--pixel-size) * 2);
+  /*width: calc(var(--pixel-size) * 37);*/
+  height: calc(var(--pixel-size) * 38);
+}
+
+@media only screen and (min-width: 1000px){
+  .dpad {
+    display: none;
+  }
+}
+
+.dpad-button {
+  appearance: none;
+  outline: 0;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.dpad-button svg {
+  display: block;
+  height: calc(var(--pixel-size) * 13);
+}
+
+.dpad-button.pressed .Arrow_arrow-inset {
+  stroke: #07c2cc;
+}
+
+.dpad-button.pressed .Arrow_arrow-body {
+  stroke: #17dfea;
+}
+
+.dpad-up {
+  position: absolute;
+  left: 0;
+  top: calc(var(--pixel-size) * 12);
+}
+
+.dpad-down {
+  position: absolute;
+  bottom: var(--pixel-size);
+  left: calc(var(--pixel-size) * 12);
+}
+
+.dpad-left {
+  position: absolute;
+  top: calc(var(--pixel-size) * 12);
+  right: calc(var(--pixel-size) * 24);
+}
+
+.dpad-right {
+  position: absolute;
+  top: calc(var(--pixel-size) * 12);
+  right: 0;
+}
+
+.dpad {
+  user-select: none;
+}

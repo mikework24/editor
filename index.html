@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Map Editor by Mike</title>
+  <link rel="stylesheet" href="./css/editor.css">
+  <link rel="stylesheet" href="./css/fontawesome.css" />
+  <link rel="stylesheet" href="./css/solid.css" />
+
+  <!-------  Schrift besser local speichern  ------->
+  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+
+  <!-------  Game Editor  ------->
+  <script src="./js/editor/dom.js"></script>
+  <script src="./js/editor/event_listener.js"></script>
+  <script src="./js/editor/editor_funcions.js?v1.1"></script>
+  <script src="./js/editor/game.js"></script>
+  <script src="./js/editor/editor_left.js?v1.1"></script>
+  <script src="./js/editor/editor_middle.js"></script>
+  <script src="./js/editor/editor_right.js"></script>
+  <script src="./js/editor/editor_windows.js"></script>
+  <script src="./js/editor/demo_maps.js"></script>
+
+  <!-------  Init Game Editor ------->
+  <script src="./js/editor/editor.js" defer></script>
+
+</head>
+
+<body>
+
+  <div class="menu">
+    <!--
+    <div class="surface btn" id="btn-new" title="Erstellt ein neues Spiel" onclick=""><i class="fa fa-plus"></i><span>Neues Spiel</span></div>
+    <div class="surface btn" id="btn-load" title="Ladet bereits erstellte Spiele" onclick=""><i class="fa fa-folder-open"> </i><span>Spiel Laden</span></div>
+    -->
+    <a id="publicGame" href="game.html" target="_blank"><div class="surface btn" id="btn-save" title="Spiel Starten"><i class="fa fa-play"></i><span>Spiel Starten</span></div></a>
+    <!--
+    <div class="surface btn" id="btn-settings" title="Einstellungen zum Spiel" onclick=""><i class="fa fa-cog"></i><span>Einstellungen</span></div>
+    <div class="surface btn" id="btn-info" title="Info zum Editor" onclick=""><i class="fa fa-info"></i><span>Info</span></div>
+    -->
+  </div>
+  
+  <div class="app">
+    <div class="workspace">
+
+      <!-------  Linkes Seite  ------->
+      <div class="project">
+        <!-------  Maps Verwalten Button  ------->
+        <div class="surface btn active" id="mapsTab" title="Maps anlegen, l&ouml;schen, kopieren"
+          onclick="editorContent('maps','leer')" style="margin-left: 8px; margin-top: 10px"><i
+            class="fa fa-folder-open"></i><span>Maps Verwalten</span></div>
+        <!-------  Map Layers Button  ------->
+        <div class="surface btn" id="layersTab" title="Map Layers bearbeiten" onclick="editorContent('layers')"><i
+            class="fa fa-file"> </i><span>Map Layer</span></div>
+
+        <!-------  Maps Verwalten Inhalt  ------->
+        <div class="surface tab" id="mapVerwaltenTab">
+          <div class="project-tools">
+            <div class="surface btn req-layer" id="btn-map-new" title="Neue Map erstellen" onclick="createMapWindow()">
+              <i class="fa fa-plus"></i>
+            </div>
+            <div class="surface btn req-layer" id="btn-map-duplicate" title="Map Duplizieren" onclick="copyMap()">
+              <i class="fa fa-copy"></i>
+            </div>
+            <div class="surface btn req-layer" id="btn-map-up" title="Map nach oben schieben" onclick="moveMapUp()">
+              <i class="fa fa-arrow-up"></i>
+            </div>
+            <div class="surface btn req-layer" id="btn-map-down" title="Map nach unten schieben"
+              onclick="moveMapDown()">
+              <i class="fa fa-arrow-down"> </i>
+            </div>
+            <div class="surface btn req-layer" id="btn-map-settings" title="Map Namen und Gr&ouml;&szlig;e &auml;ndern"
+              onclick="editMapWindow()">
+              <i class="fa fa-cog"></i>
+            </div>
+            <div class="surface btn req-layer" id="btn-map-remove" title="Map l&ouml;schen" onclick="deleteMapWindow()">
+              <i class="fas fa-trash"></i>
+            </div>
+          </div>
+
+          <div class="project-item-list dark-scrollbar" id="mapListElements">
+            <ul class="project-map-tree">
+              <li class="layer" mapNameList="map1" onclick="setAktivMap('map1')">
+                <div class="item-name layer selected">map1</div>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-------  Map Layers Inhalt  ------->
+        <div class="surface tab displayNone" id="mapLayersTab">
+          <div class="project-tools">
+            <div class="surface btn" id="btn-load" title="Map Laden" onclick="loadMap(null, false)"><i
+                class="fa fa-folder-open"></i></div>
+            <div class="surface btn" id="btn-save" title="Map Speichern" onclick="saveMap()"><i class="fa fa-save"></i>
+            </div>
+            <label id="showChanges" style="margin-left: 16px;"></label>
+          </div>
+
+          <div class="project-item-list dark-scrollbar">
+            <ul class="project-item-tree">
+              <li class="map">
+                <div class="item-name map"><label id="showMapName">Map: </label></div>
+              </li>
+              <li class="layer" tile-layer="6" onclick="setLayer(6)">
+                <div class="item-name layer">Block Eigenschaften</div>
+                <i class="item-visibility visible" show-layer="6" onclick="showLayerChange(6)"></i>
+              </li>
+              <li class="layer" tile-layer="1" onclick="setLayer(1)">
+                <div class="item-name layer">Hintergrund (Ebene -2)</div>
+                <i class="item-visibility visible" show-layer="1" onclick="showLayerChange(1)"></i>
+              </li>
+              <li class="layer" tile-layer="2" onclick="setLayer(2)">
+                <div class="item-name layer">Hintergrund (Ebene -1)</div>
+                <i class="item-visibility visible" show-layer="2" onclick="showLayerChange(2)"></i>
+              </li>
+              <li class="layer" tile-layer="3" onclick="setLayer(3)">
+                <div class="item-name layer">Hintergrund (Ebene 0)</div>
+                <i class="item-visibility visible" show-layer="3" onclick="showLayerChange(3)"></i>
+              </li>
+              <li class="layer" tile-layer="4" onclick="setLayer(4)">
+                <div class="item-name layer">Objekte (Ebene 0)</div>
+                <i class="item-visibility visible" show-layer="4" onclick="showLayerChange(4)"></i>
+              </li>
+              <li class="layer" tile-layer="5" onclick="setLayer(5)">
+                <div class="item-name layer">Vordergrund (Ebene 1)</div>
+                <i class="item-visibility visible" show-layer="5" onclick="showLayerChange(5)"></i>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-------  Mitte  ------->
+      <div class="scene">
+        <!-------  Map Editor Label  ------->
+        <div class="tab-header">Map Editor</div>
+        <!-------  Map Editor Inhalt  ------->
+        <div class="surface tab">
+          <div class="editor-container">
+            <div class="editor-tools width100">
+              <!-------  Map Editor Tools  ------->
+              <div class="surface btn" id="btn-editor-cursor" title="(1) Ausw&auml;hlen"
+                onclick="editorContent('layers','cursor')"><i class="fa fa-mouse-pointer"></i></div>
+              <div class="surface btn" id="btn-editor-brush" title="(2) Zeichnen"
+                onclick="editorContent('layers','brush')"><i class="fa fa-paint-brush"></i></div>
+              <div class="surface btn" id="btn-editor-eraser" title="(3) L&ouml;schen"
+                onclick="editorContent('layers','eraser')"><i class="fa fa-eraser"></i></div>
+              <div class="surface btn" id="btn-editor-move" title="(4 oder alt) Schieben und Zoomen"
+                onclick="editorContent('layers','move')"><i class="fas fa-arrows-alt"></i></div>
+
+              <div class="surface btn" id="btn-editor-getall" title="(5) Alle Eigenschaften laden"
+                onclick="editorContent('layers','getall')" style="margin-left: 8px;"><i class="fas fa-eye-dropper"></i>
+              </div>
+              <div class="surface btn" id="btn-editor-setall" title="(6) Alle Eigenschaften setzen"
+                onclick="editorContent('layers','setall')"><i class="fas fa-paint-roller"></i></div>
+
+              <div class="surface btn" id="btn-editor-back" title="(strg + z) R&uuml;ckg&auml;ngig" onclick="autoLoadID(-1)"
+                style="margin-left: 8px;"><i class="fas fa-undo"></i></div>
+              <div class="surface btn" id="btn-editor-forth" title="(strg + y) Wiederholen" onclick="autoLoadID(1)"><i
+                  class="fas fa-redo"></i></div>
+
+              <div style="margin-left: 8px;" class="surface btn" id="btn-editor-center" title="Neu Ausrichten"
+                onclick="cleanCamera()">
+                <i class="fas fa-map"></i>
+              </div>
+              <div class="surface btn" id="btn-editor-zout" title="(-) Verkleinern" onclick="zoomOut()">
+                <i class="fa fa-search-minus"></i>
+              </div>
+              <div class="surface btn" id="btn-editor-zin" title="(+) Vergr&ouml;&szlig;ern" onclick="zoomIn()"
+                disabled="disabled">
+                <i class="fa fa-search-plus"></i>
+              </div>
+
+              <i class="fas fa-search" style="margin-left: 16px;"> </i> <label id="showMapZoom">100%</label>
+
+              <a  href="./game.html" target="_blank" id="runMap">
+                <div class="surface btn fl-right" id="btn-game-run" title="Map Starten" ><i
+                    class="fa fa-play"></i></div>
+              </a>
+
+            </div>
+            <div class="surface editor-border">
+              <canvas class="editor" width="480" height="480" id="canvasMap"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-------  Rechte Seite  ------->
+      <div class="selector">
+        <!-------  Inspektor Label  ------->
+        <div class="tab-header">Inspektor</div>
+        <!-------  Inspektor Inhalt  ------->
+        <div class="surface tab inspector" id="inspector">
+
+          <!-------  leerer Inhalt  ------->
+          <div class="layer-tools" id="insp-empty">
+          </div>
+
+          <!-------  Map Auswahl  ------->
+          <div class="layer-tools" id="insp-selected">
+            <div class="block-size">
+              <div class="input-header">Auswahl Eigenschaften</div>
+
+              <div class="newline"></div>
+
+              <div class="input-header" id="selected-description"></div>
+
+            </div>
+          </div>
+
+          <!-------  Block Eigenschaften  ------->
+          <div class="layer-tools" id="insp-block">
+            <div class="block-size">
+              <div class="input-header">Block Eigenschaften</div>
+              <div class="tile-list dark-scrollbar ">
+                <!-------  Block Grafik  ------->
+                <div class="grid-container" style="padding-bottom: 4px;">
+                  <img id="grid-source" style="left: 3px; top: 3px;" crossorigin />
+                  <div class="grid-container_selection"></div>
+                </div>
+              </div>
+              <div class="newline"></div>
+
+              <div class="input-header" id="grid-description"></div>
+
+            </div>
+          </div>
+
+          <!-------  Objekt Eigenschaften  ------->
+          <div class="layer-tools" id="insp-object">
+            <div class="block-size">
+              <div class="input-header">Objekt Eigenschaften</div>
+              <div class="tile-list dark-scrollbar ">
+                <!-------  Objekt Grafik  ------->
+                <div class="object-container" style="padding-bottom: 4px;">
+                  <img id="object-source" style="left: 3px; top: 3px;" crossorigin />
+                  <div class="object-container_selection"></div>
+                </div>
+              </div>
+              <div class="newline"></div>
+
+              <div class="input-header" id="object-description"></div>
+
+            </div>
+          </div>
+
+          <!-------  Zeichnen  ------->
+          <div class="layer-tools displayNone" id="insp-tiles">
+            <div class="brush-size">
+              <div class="input-header">Zeichnen</div>
+            </div>
+            <div class="tile-selector">
+              <div class="tile-tools">
+                <div class="surface btn displayNone" id="btn-tiles-previous" onclick="previousTilePage()"><i
+                    class="fa fa-angle-left"></i></div>
+                <div class="surface btn displayNone" id="btn-tiles-next" onclick="nextTilePage()"><i
+                    class="fa fa-angle-right"></i></div>
+                <div class="surface btn" id="btn-tile-zout" title="Verkleinern" onclick="zoomTileOut()"><i
+                    class="fa fa-search-minus"></i></div>
+                <div class="surface btn" id="btn-tile-zin" title="Vergr&ouml;&szlig;ern" onclick="zoomTileIn()"><i
+                    class="fa fa-search-plus"></i></div>
+                <i class="fas fa-search" style="margin-left: 16px;"> </i> <label id="showTileZoom">100%</label>
+              </div>
+              <div class="tile-list dark-scrollbar">
+
+                <!-------  Grafiken  ------->
+                <div class="tileset-container" style="padding-bottom: 4px;">
+                  <img id="tileset-source" style="left: 3px; top: 3px;" crossorigin />
+                  <div class="tileset-container_selection"></div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-------  Graues Overlay bei eingeblendeten Fenstern  ------->
+  <div class="window-tint"> </div>
+
+  <!-------  Fenster - Neue Map  ------->
+  <div class="window surface" id="create-map-window">
+    <div class="window-title-bar">
+      <h4>Neue Map erstellen</h4>
+      <div class="surface btn" onclick="cancelCreateMap()"><i class="fas fa-times"></i></div>
+    </div>
+    <div class="window-body">
+
+      <div class="newline"></div>
+
+      <div class="input-row width75">
+        <label for="input-map-name">Mapname :</label>
+        <input type="text" class="mapSize" style="width: 150px; top:-3px;" value="" id="input-map-name"
+          placeholder="Mapname">
+      </div>
+      <div class="newline"></div>
+
+      <div class="input-row width75">
+        <label for="input-stylesheet-name">Stylesheet der Map:</label>
+        <input type="text" class="mapSize" style="width: 150px; top:-3px;" value="" id="input-stylesheet-name"
+          placeholder="./img/demo_tiles.png">
+      </div>
+      <div class="newline"></div>
+
+      <div class="input-row width75">
+        <label for="input-stylesheet-width">Stylesheet (px):</label>
+        <input type="number" class="mapSize" value="16" id="input-stylesheet-width" style="width: 150px; top:-3px;">
+      </div>
+      <div class="newline"></div>
+
+      <div class="input-row width75">
+        <label for="input-paralax-name">Paralax Hintergrund:</label>
+        <input type="text" class="mapSize" style="width: 150px; top:-3px;" value="" id="input-paralax-name"
+          placeholder="./img/backgroundImg.jpg">
+      </div>
+      <div class="newline"></div>
+
+      <div class="input-header">Map Gr&ouml;&szlig;e in Feldern</div>
+      <div class="newline"></div>
+
+      <div class="input-row width40">
+        <label for="input-map-width">Breite :</label>
+        <input type="number" class="mapSize" value="16" id="input-map-width" style="top:-3px;">
+      </div>
+      <div class="newline"></div>
+
+      <div class="input-row width40">
+        <label for="input-map-height">H&ouml;he:</label>
+        <input type="number" class="mapSize" value="16" id="input-map-height" style="top:-3px;">
+      </div>
+      <div class="newline"></div>
+
+      <p>Die Daten k&ouml;nnen nach dem erstellen einer Map auch ver&auml;ndert werden!</p>
+      <p>Speichern der aktuellen Map bitte nicht vergessen!</p>
+
+    </div>
+    <div class="window-actions">
+      <div class="surface btn" onclick="cancelCreateMap()">Abbrechen</div>
+      <div class="surface btn" onclick="createMapSave()">Erstellen</div>
+      <div class="surface btn" onclick="createMapSave('save')">Speichern und Erstellen</div>
+    </div>
+  </div>
+
+  <!-------  Fenster - Map bearbeiten  ------->
+  <div class="window surface" id="edit-map-window">
+    <div class="window-title-bar">
+      <h4>Map bearbeiten</h4>
+      <div class="surface btn" onclick="cancelEditMap()"><i class="fas fa-times"></i></div>
+    </div>
+    <div class="window-body">
+
+      <div class="newline"></div>
+
+      <div class="input-row width75">
+        <label for="input-map-width">Mapname :</label>
+        <input type="text" class="mapSize" style="width: 144px; top:-3px;" id="input-map-name2">
+      </div>
+      <div class="newline"></div>
+
+      <div class="input-row width75">
+        <label for="input-stylesheet-name2">Stylesheet der Map:</label>
+        <input type="text" class="mapSize" style="width: 150px; top:-3px;" value="" id="input-stylesheet-name2"
+          placeholder="./img/demo_tiles.png">
+      </div>
+      <div class="newline"></div>
+
+      <div class="input-row width75">
+        <label for="input-stylesheet-width2">Stylesheet (px):</label>
+        <input type="number" class="mapSize" value="16" id="input-stylesheet-width2" style="width: 150px; top:-3px;">
+      </div>
+      <div class="newline"></div>
+
+      <div class="input-row width75">
+        <label for="input-paralax-name2">Paralax Hintergrund:</label>
+        <input type="text" class="mapSize" style="width: 150px; top:-3px;" value="" id="input-paralax-name2"
+          placeholder="./img/backgroundImg.jpg">
+      </div>
+      <div class="newline"></div>
+
+      <div class="input-header">Map Gr&ouml;&szlig;e in Feldern</div>
+      <div class="newline"></div>
+
+      <div class="input-row width40">
+        <label for="input-map-width">Breite :</label>
+        <input type="number" class="mapSize" id="input-map-width2" style="top:-3px;">
+      </div>
+      <div class="newline"></div>
+
+      <div class="input-row width40">
+        <label for="input-map-height">H&ouml;he:</label>
+        <input type="number" class="mapSize" id="input-map-height2" style="top:-3px;">
+      </div>
+      <div class="newline"></div>
+
+    </div>
+    <div class="window-actions">
+      <div class="surface btn" onclick="cancelEditMap()">Abbrechen</div>
+      <div class="surface btn" onclick="editMapSave()">&Auml;ndern</div>
+    </div>
+  </div>
+
+  <!-------  Fenster - Map löschen  ------->
+  <div class="window surface" id="delete-map-window">
+    <div class="window-title-bar">
+      <h4>Map L&ouml;schen</h4>
+      <div class="surface btn" onclick="closeDeleteMap()"><i class="fas fa-times"></i></div>
+    </div>
+    <div class="window-body">
+      <div class="input-header">Warnung: eine gel&ouml;schte Map kann nicht wiederhergestellt werden!</div>
+    </div>
+    <div class="window-actions">
+      <div class="surface btn" onclick="closeDeleteMap()">Abbrechen</div>
+      <div class="surface btn" onclick="deleteMapConfirm()">Best&auml;tigen</div>
+    </div>
+  </div>
+
+
+</body>
+
+</html>

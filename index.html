@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="de">
 
 <head>
   <title>Map Editor by Mike</title>
+  <meta name="description" content="Javascipt Projekt.">
+  <meta name="robots" content="noindex">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
   <link rel="stylesheet" href="./css/editor.css">
   <link rel="stylesheet" href="./css/fontawesome.css" />
   <link rel="stylesheet" href="./css/solid.css" />
 
-  <!-------  Schrift besser local speichern  ------->
-  <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
-
   <!-------  Game Editor  ------->
   <script src="./js/editor/dom.js"></script>
   <script src="./js/editor/event_listener.js"></script>
-  <script src="./js/editor/editor_funcions.js?v1.1"></script>
+  <script src="./js/editor/editor_funcions.js"></script>
   <script src="./js/editor/game.js"></script>
-  <script src="./js/editor/editor_left.js?v1.1"></script>
+  <script src="./js/editor/editor_left.js"></script>
   <script src="./js/editor/editor_middle.js"></script>
   <script src="./js/editor/editor_right.js"></script>
   <script src="./js/editor/editor_windows.js"></script>
@@ -33,13 +34,16 @@
     <div class="surface btn" id="btn-new" title="Erstellt ein neues Spiel" onclick=""><i class="fa fa-plus"></i><span>Neues Spiel</span></div>
     <div class="surface btn" id="btn-load" title="Ladet bereits erstellte Spiele" onclick=""><i class="fa fa-folder-open"> </i><span>Spiel Laden</span></div>
     -->
-    <a id="publicGame" href="game.html" target="_blank"><div class="surface btn" id="btn-save" title="Spiel Starten"><i class="fa fa-play"></i><span>Spiel Starten</span></div></a>
+    <a id="publicGame" href="game.html" target="_blank">
+      <div class="surface btn" id="btn-save" title="Spiel Starten"><i class="fa fa-play"></i><span>Spiel Starten</span>
+      </div>
+    </a>
     <!--
     <div class="surface btn" id="btn-settings" title="Einstellungen zum Spiel" onclick=""><i class="fa fa-cog"></i><span>Einstellungen</span></div>
     <div class="surface btn" id="btn-info" title="Info zum Editor" onclick=""><i class="fa fa-info"></i><span>Info</span></div>
     -->
   </div>
-  
+
   <div class="app">
     <div class="workspace">
 
@@ -155,8 +159,8 @@
               <div class="surface btn" id="btn-editor-setall" title="(6) Alle Eigenschaften setzen"
                 onclick="editorContent('layers','setall')"><i class="fas fa-paint-roller"></i></div>
 
-              <div class="surface btn" id="btn-editor-back" title="(strg + z) R&uuml;ckg&auml;ngig" onclick="autoLoadID(-1)"
-                style="margin-left: 8px;"><i class="fas fa-undo"></i></div>
+              <div class="surface btn" id="btn-editor-back" title="(strg + z) R&uuml;ckg&auml;ngig"
+                onclick="autoLoadID(-1)" style="margin-left: 8px;"><i class="fas fa-undo"></i></div>
               <div class="surface btn" id="btn-editor-forth" title="(strg + y) Wiederholen" onclick="autoLoadID(1)"><i
                   class="fas fa-redo"></i></div>
 
@@ -171,12 +175,10 @@
                 disabled="disabled">
                 <i class="fa fa-search-plus"></i>
               </div>
-
               <i class="fas fa-search" style="margin-left: 16px;"> </i> <label id="showMapZoom">100%</label>
 
-              <a  href="./game.html" target="_blank" id="runMap">
-                <div class="surface btn fl-right" id="btn-game-run" title="Map Starten" ><i
-                    class="fa fa-play"></i></div>
+              <a href="./game.html" target="_blank" id="runMap">
+                <div class="surface btn fl-right" id="btn-game-run" title="Map Starten"><i class="fa fa-play"></i></div>
               </a>
 
             </div>
@@ -418,7 +420,6 @@
       <div class="surface btn" onclick="deleteMapConfirm()">Best&auml;tigen</div>
     </div>
   </div>
-
 
 </body>
 

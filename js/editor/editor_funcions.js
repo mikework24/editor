@@ -164,6 +164,11 @@ const loadMap = (loadMapName, loadAutoSave = true) => {
       }
    }
    el.runMapLink.href = "./game.html?id=" + gameKeyPublic + "&map=" + loadMapName;
+
+   
+   paralaxBg.onload = function () {
+      draw();
+   }
 }
 
 //______________________________  Autosave Map  ______________________________
